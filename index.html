@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NOCTRA VIP 2026 — Dashboard | Paket | Bug | Tools | Kontak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0B0C10;
+            color: #EAEFF5;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        /* Video background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+
+        /* Tombol suara */
+        .sound-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #C9A03D;
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            transition: 0.3s;
+        }
+        .sound-btn:hover {
+            background: #C9A03D;
+            color: #0B0C10;
+            border-color: #fff;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #11141C; }
+        ::-webkit-scrollbar-thumb { background: #C9A03D; border-radius: 10px; }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(201, 160, 61, 0.3);
+            margin-bottom: 2rem;
+        }
+        .logo-area { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-img { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; border: 1px solid #C9A03D; }
+        .verified-badge { background: #27A0E0; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; margin-left: 8px; }
+        .verified-badge i { font-size: 12px; color: white; }
+        .logo-text {
+            font-size: 1.6rem; font-weight: 800;
+            background: linear-gradient(135deg, #F5E7C8, #C9A03D);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .nav-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .nav-links a { color: #CFD9F0; text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .nav-links a:hover { color: #C9A03D; }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #FFF, #E4CB8B, #C9A03D);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-badge {
+            background: #27A0E0;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 3px rgba(39,160,224,0.3);
+        }
+        .hero-badge i { font-size: 20px; color: white; }
+        .subhead { color: #B9C4E0; font-size: 1.1rem; margin-top: 0.8rem; }
+
+        .section-block {
+            background: rgba(10, 15, 25, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid rgba(201, 160, 61, 0.3);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            transition: 0.3s;
+        }
+        .section-block:hover {
+            border-color: rgba(201, 160, 61, 0.6);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #C9A03D;
+            padding-left: 1rem;
+        }
+        .section-title i { color: #C9A03D; font-size: 1.8rem; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+        .social-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 24px;
+            padding: 1.2rem;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .social-card:hover { transform: translateY(-4px); background: rgba(0,0,0,0.6); }
+        .social-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .social-card h3 { font-size: 1.3rem; margin: 0.3rem 0; }
+        .social-stats { font-size: 0.8rem; color: #C9A03D; margin: 0.2rem 0; }
+        .btn-social {
+            display: inline-block;
+            background: rgba(201,160,61,0.2);
+            border: 1px solid #C9A03D;
+            border-radius: 30px;
+            padding: 0.4rem 1rem;
+            margin-top: 0.8rem;
+            color: #F5E7C8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .btn-social:hover { background: #C9A03D; color: #0B0C10; }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.8rem;
+        }
+        .pricing-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .pricing-card .package-icon { font-size: 2.5rem; color: #C9A03D; }
+        .pricing-card h3 { font-size: 1.6rem; margin: 0.5rem 0; }
+        .price { font-size: 2rem; font-weight: 800; color: #F5E7C8; margin: 0.5rem 0; }
+        .price small { font-size: 0.8rem; }
+        .btn-buy {
+            background: linear-gradient(95deg, #C9A03D, #B58C2E);
+            border: none;
+            padding: 0.7rem;
+            border-radius: 40px;
+            font-weight: bold;
+            color: #0B0C10;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .btn-buy:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+        .two-column-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .feature-item {
+            background: rgba(0,0,0,0.4);
+            padding: 0.8rem 1rem;
+            border-radius: 20px;
+            border-left: 3px solid #C9A03D;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .feature-item i { color: #27A0E0; width: 24px; }
+        .badge {
+            background: #27A0E0;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        .contact-wrapper { text-align: center; }
+        .contact-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .btn-contact {
+            background: linear-gradient(95deg, #C9A03D, #B58C2E);
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #0B0C10;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        .btn-contact:hover { transform: translateY(-3px); filter: brightness(1.05); }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-tg { background: #0088cc; color: white; }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0 0;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(201,160,61,0.2);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 780px) {
+            .main-container { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 1.4rem; }
+            .sound-btn { padding: 8px 14px; font-size: 12px; bottom: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <video id="bgVideo" class="video-background" autoplay loop muted playsinline>
+        <source src="https://files.catbox.moe/t1124r.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
+    <div id="soundToggle" class="sound-btn">
+        <i id="soundIcon" class="fas fa-volume-mute"></i>
+        <span id="soundText">Aktifkan Suara</span>
+    </div>
+
+    <div class="main-container">
+        <nav>
+            <div class="logo-area">
+                <img class="logo-img" src="https://files.catbox.moe/tcji75.jpg" alt="Logo">
+                <div class="logo-text">NOCTRA VIP</div>
+                <div class="verified-badge"><i class="fas fa-check"></i></div>
+            </div>
+            <div class="nav-links">
+                <a href="#dashboard">📱 Dashboard</a>
+                <a href="#paket">💎 Paket</a>
+                <a href="#bug">⚡ Bug</a>
+                <a href="#tools">🛠️ Tools</a>
+                <a href="#kontak">📞 Kontak</a>
+            </div>
+        </nav>
+
+        <div class="hero">
+            <h1>
+                <span class="gradient-text">NOCTRA VIP 2026</span>
+                <span class="hero-badge"><i class="fas fa-check"></i></span>
+            </h1>
+            <div class="subhead">Ultimate Bug & Tools APK — Pilih peranmu, dapatkan akses penuh</div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="section-block">
+            <div class="section-title"><i class="fab fa-fort-awesome"></i> <span>📱 DASHBOARD SOSIAL MEDIA RESMI</span></div>
+            <div class="dashboard-grid">
+                <div class="social-card"><div class="social-icon"><i class="fab fa-tiktok"></i></div><h3>TikTok</h3><div class="social-stats">125K Followers</div><a href="#" class="btn-social">@noctravip2026</a></div>
+                <div class="social-card"><div class="social-icon"><i class="fab fa-instagram"></i></div><h3>Instagram</h3><div class="social-stats">89K Followers</div><a href="#" class="btn-social">@noctravip2026</a></div>
+                <div class="social-card"><div class="social-icon"><i class="fab fa-youtube"></i></div><h3>YouTube</h3><div class="social-stats">205K Subs</div><a href="#" class="btn-social">NOCTRA VIP</a></div>
+                <div class="social-card"><div class="social-icon"><i class="fab fa-twitter"></i></div><h3>Twitter</h3><div class="social-stats">34K Followers</div><a href="#" class="btn-social">@noctravip2026</a></div>
+                <div class="social-card"><div class="social-icon"><i class="fab fa-facebook-f"></i></div><h3>Facebook</h3><div class="social-stats">67K Likes</div><a href="#" class="btn-social">NOCTRA VIP</a></div>
+                <div class="social-card"><div class="social-icon"><i class="fab fa-telegram"></i></div><h3>Telegram</h3><div class="social-stats">28K Members</div><a href="#" class="btn-social">@HamzNoctra</a></div>
+                <div class="social-card"><div class="social-icon"><i class="fab fa-whatsapp"></i></div><h3>WhatsApp</h3><div class="social-stats">Official Support</div><a href="https://wa.me/6282199172613" target="_blank" class="btn-social">Chat Now</a></div>
+            </div>
+        </div>
+
+        <!-- PAKET -->
+        <div id="paket" class="section-block">
+            <div class="section-title"><i class="fas fa-tags"></i><span>💎 PAKET KEPEMILIKAN</span></div>
+            <div class="pricing-grid">
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-user-clock"></i></div><h3>MEMBER BIASA</h3><div class="price">10k <small>/ bulan</small></div><button class="btn-buy" data-pkg="MEMBER BIASA (10k/bulan)"><i class="fab fa-whatsapp"></i> Ambil Member</button></div>
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-infinity"></i></div><h3>MEMBER PERMANEN</h3><div class="price">20k <small>seumur hidup</small></div><button class="btn-buy" data-pkg="MEMBER PERMANEN (20k)"><i class="fab fa-whatsapp"></i> Ambil Permanen</button></div>
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-store"></i></div><h3>RESELLER</h3><div class="price">30k <small>permanen</small></div><button class="btn-buy" data-pkg="RESELLER (30k)"><i class="fab fa-whatsapp"></i> Jadi Reseller</button></div>
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-gem"></i></div><h3>VIP</h3><div class="price">45k <small>permanen</small></div><button class="btn-buy" data-pkg="VIP (45k)"><i class="fab fa-whatsapp"></i> Ambil VIP</button></div>
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-crown"></i></div><h3>OWNER</h3><div class="price">50k <small>permanen</small></div><button class="btn-buy" data-pkg="OWNER (50k)"><i class="fab fa-whatsapp"></i> Jadi Owner</button></div>
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-handshake"></i></div><h3>PARTNER</h3><div class="price">100k <small>permanen</small></div><button class="btn-buy" data-pkg="PARTNER (100k)"><i class="fab fa-whatsapp"></i> Jadi Partner</button></div>
+                <div class="pricing-card"><div class="package-icon"><i class="fas fa-user-tie"></i></div><h3>TANGAN KANAN</h3><div class="price">150k <small>permanen</small></div><button class="btn-buy" data-pkg="TANGAN KANAN (150k)"><i class="fab fa-whatsapp"></i> Ambil Tangan Kanan</button></div>
+            </div>
+        </div>
+
+        <!-- BUG -->
+        <div id="bug" class="section-block">
+            <div class="section-title"><i class="fas fa-bug"></i><span>⚡ EFEK BUG NOCTRA VIP</span></div>
+            <div class="two-column-grid">
+                <div class="feature-item"><i class="fas fa-skull"></i> FORCLOSE ONE MSG <span class="badge">BUG</span></div>
+                <div class="feature-item"><i class="fas fa-bell-slash"></i> CRASH NOTIFIKASI <span class="badge">CRASH</span></div>
+                <div class="feature-item"><i class="fas fa-mouse-pointer"></i> CRASH NO CLICK <span class="badge">CRASH</span></div>
+                <div class="feature-item"><i class="fas fa-hand-pointer"></i> CRASH CLICK <span class="badge">CRASH</span></div>
+                <div class="feature-item"><i class="fas fa-square"></i> BLANK NO CLICK <span class="badge">EXPLOIT</span></div>
+                <div class="feature-item"><i class="fas fa-square"></i> BLANK CLICK <span class="badge">EXPLOIT</span></div>
+                <div class="feature-item"><i class="fas fa-hourglass-half"></i> DELAY INVISIBLE <span class="badge">GLITCH</span></div>
+                <div class="feature-item"><i class="fas fa-tractor"></i> BULLDOZER CRASH <span class="badge">CRASH</span></div>
+                <div class="feature-item"><i class="fas fa-users"></i> BUG GROUP <span class="badge">GROUP</span></div>
+            </div>
+        </div>
+
+        <!-- TOOLS -->
+        <div id="tools" class="section-block">
+            <div class="section-title"><i class="fas fa-toolbox"></i><span>🛠️ TOOLS FEATURE APK NOCTRA VIP</span></div>
+            <div class="two-column-grid">
+                <div class="feature-item"><i class="fas fa-globe"></i> DDOS WEB</div>
+                <div class="feature-item"><i class="fas fa-wifi"></i> KILLER WIFI</div>
+                <div class="feature-item"><i class="fas fa-laptop-code"></i> RAT</div>
+                <div class="feature-item"><i class="fas fa-tv"></i> NONTON ANIME</div>
+                <div class="feature-item"><i class="fas fa-dragon"></i> DRACIN</div>
+                <div class="feature-item"><i class="fas fa-film"></i> NONTON MOVIE</div>
+                <div class="feature-item"><i class="fas fa-search"></i> OSINT NIK / NO EMAIL</div>
+                <div class="feature-item"><i class="fas fa-qrcode"></i> QR GENERATOR</div>
+                <div class="feature-item"><i class="fas fa-plus-circle"></i> DLL (Update berkala)</div>
+            </div>
+        </div>
+
+        <!-- KONTAK -->
+        <div id="kontak" class="section-block">
+            <div class="section-title"><i class="fas fa-address-card"></i><span>📞 HUBUNGI OFFICIAL NOCTRA VIP</span></div>
+            <div class="contact-wrapper">
+                <div class="contact-buttons">
+                    <a href="https://wa.me/6282199172613?text=Halo%20NOCTRA%20VIP%2C%20saya%20tertarik%20mengambil%20paket" target="_blank" class="btn-contact btn-wa"><i class="fab fa-whatsapp"></i> Hubungi WhatsApp</a>
+                    <a href="https://t.me/HamzNoctra" target="_blank" class="btn-contact btn-tg"><i class="fab fa-telegram"></i> Hubungi Telegram</a>
+                </div>
+                <p style="margin-top: 0.8rem; font-size: 0.85rem; opacity: 0.8;">Klik tombol di atas untuk menghubungi official kami langsung.</p>
+            </div>
+        </div>
+
+        <footer>© 2026 NOCTRA VIP — Ultimate Bug & Tools Ecosystem. All rights reserved.</footer>
+    </div>
+
+    <script>
+        // Video Sound Control
+        const video = document.getElementById('bgVideo');
+        const soundBtn = document.getElementById('soundToggle');
+        const soundIcon = document.getElementById('soundIcon');
+        const soundText = document.getElementById('soundText');
+
+        function toggleSound() {
+            if (video.muted) {
+                video.muted = false;
+                soundIcon.className = 'fas fa-volume-up';
+                soundText.innerText = 'Matikan Suara';
+                video.play().catch(e => console.log("Play error:", e));
+            } else {
+                video.muted = true;
+                soundIcon.className = 'fas fa-volume-mute';
+                soundText.innerText = 'Aktifkan Suara';
+            }
+        }
+        soundBtn.addEventListener('click', toggleSound);
+
+        // Pastikan video tidak error dan berjalan lancar
+        video.addEventListener('error', () => console.warn('Video error'));
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) video.pause();
+            else video.play().catch(e => console.log("Resume error"));
+        });
+
+        // WhatsApp order
+        document.querySelectorAll('.btn-buy').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pkg = btn.getAttribute('data-pkg');
+                const msg = `Halo admin NOCTRA VIP, saya ingin mengambil paket: ${pkg}. Mohon info lebih lanjut.`;
+                window.open(`https://wa.me/6282199172613?text=${encodeURIComponent(msg)}`, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
